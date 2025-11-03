@@ -11,7 +11,7 @@ model = AutoModelForCausalLM.from_pretrained(
     torch_dtype="auto",
     device_map="auto"
 )
-print(model.device)
+# print(model.device)
 def extract_label_and_categories(content):
     safe_pattern = r"Safety: (Safe|Unsafe|Controversial)"
     category_pattern = r"(Violent|Non-violent Illegal Acts|Sexual Content or Sexual Acts|PII|Suicide & Self-Harm|Unethical Acts|Politically Sensitive Topics|Copyright Violation|Jailbreak|None)"
