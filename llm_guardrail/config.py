@@ -30,3 +30,6 @@ try:
     logger.add(lambda msg: tqdm.write(msg, end=""), colorize=True)
 except ModuleNotFoundError:
     pass
+
+if __name__ == "__main__":
+    print(PROJ_ROOT)
