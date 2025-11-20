@@ -3,14 +3,19 @@ from transformers import AutoModelForCausalLM, AutoTokenizer
 import re
 import os
 
-model_name = "Qwen/Qwen2.5-0.5B"
+MODEL_PATH = os.environ.get("MODEL_PATH")
 
+if not MODEL_PATH:
+    raise ValueError("Biến môi trường MODEL_PATH chưa được thiết lập cho generator.")
+
+# Tải model và tokenizer từ đường dẫn cục bộ
 model = AutoModelForCausalLM.from_pretrained(
-    model_name,
+    MODEL_PATH,
     dtype="auto",
-    device_map="auto"
+    device_map="auto",
+    local_files_only=True
 )
-tokenizer = AutoTokenizer.from_pretrained(model_name)
+tokenizer = AutoTokenizer.from_pretrained(MODEL_PATH, local_files_only=True)
 
 app = FastAPI()
 
