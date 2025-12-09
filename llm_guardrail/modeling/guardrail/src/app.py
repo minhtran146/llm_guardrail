@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.responses import HTMLResponse
 from transformers import AutoModelForCausalLM, AutoTokenizer
 import re
 import os
@@ -74,4 +75,76 @@ async def ask(prompt: str):
         return gen_result
     else: # Nếu không an toàn, trả về kết quả của guardrail
         return {'guard_content': guard_content}
+
+
+@app.get("/", response_class=HTMLResponse)
+async def home():
+    return """
+    <!doctype html>
+    <html lang="vi">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Guardrail Demo</title>
+        <style>
+            body { font-family: Arial, sans-serif; margin: 24px; background: #f7f7f7; }
+            h1 { margin-bottom: 8px; }
+            .card { background: #fff; padding: 16px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.08); max-width: 720px; }
+            textarea { width: 100%; min-height: 140px; padding: 10px; border-radius: 6px; border: 1px solid #ccc; font-size: 14px; }
+            button { margin-top: 12px; padding: 10px 16px; border: none; border-radius: 6px; background: #2563eb; color: #fff; font-size: 14px; cursor: pointer; }
+            button:disabled { opacity: 0.6; cursor: not-allowed; }
+            pre { background: #111827; color: #e5e7eb; padding: 12px; border-radius: 6px; overflow: auto; }
+            .status { margin-top: 8px; font-size: 13px; color: #555; }
+        </style>
+    </head>
+    <body>
+        <div class="card">
+            <h1>Thử nghiệm API /ask</h1>
+            <p>Nhập prompt rồi ấn "Gửi". Kết quả trả về từ API sẽ được hiển thị bên dưới.</p>
+            <textarea id="prompt" placeholder="Nhập prompt..."></textarea>
+            <button id="submit">Gửi</button>
+            <div class="status" id="status"></div>
+            <h3>Kết quả</h3>
+            <pre id="result">Chưa có kết quả.</pre>
+        </div>
+        <script>
+            const promptEl = document.getElementById('prompt');
+            const submitBtn = document.getElementById('submit');
+            const resultEl = document.getElementById('result');
+            const statusEl = document.getElementById('status');
+
+            async function callApi() {
+                const prompt = promptEl.value.trim();
+                if (!prompt) {
+                    statusEl.textContent = "Vui lòng nhập prompt trước khi gửi.";
+                    return;
+                }
+                submitBtn.disabled = true;
+                statusEl.textContent = "Đang gửi yêu cầu...";
+                resultEl.textContent = "Đang chờ kết quả...";
+                try {
+                    const res = await fetch('/ask', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ prompt })
+                    });
+                    const data = await res.json();
+                    resultEl.textContent = JSON.stringify(data, null, 2);
+                    statusEl.textContent = res.ok ? "Hoàn tất." : "Có lỗi từ API.";
+                } catch (err) {
+                    resultEl.textContent = err?.message || String(err);
+                    statusEl.textContent = "Không thể gọi API.";
+                } finally {
+                    submitBtn.disabled = false;
+                }
+            }
+
+            submitBtn.addEventListener('click', callApi);
+            promptEl.addEventListener('keydown', (e) => {
+                if (e.ctrlKey && e.key === 'Enter') callApi();
+            });
+        </script>
+    </body>
+    </html>
+    """
 
