@@ -123,10 +123,8 @@ async def home():
                 statusEl.textContent = "Đang gửi yêu cầu...";
                 resultEl.textContent = "Đang chờ kết quả...";
                 try {
-                    const res = await fetch('/ask', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ prompt })
+                    const res = await fetch('/ask?prompt=' + encodeURIComponent(prompt), {
+                        method: 'POST'
                     });
                     const data = await res.json();
                     resultEl.textContent = JSON.stringify(data, null, 2);
