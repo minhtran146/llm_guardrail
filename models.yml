@@ -1,0 +1,16 @@
+# source: 'huggingface' -> Tải từ Hugging Face Hub bằng repo_id.
+# source: 'local'      -> Sao chép từ một thư mục cục bộ bằng path.
+
+generator:
+  source: huggingface
+  repo_id: "Qwen/Qwen2.5-0.5B"
+
+guardrail:
+  source: huggingface
+  repo_id: "Qwen/Qwen3Guard-Gen-0.6B"
+
+# --- Ví dụ cho các nguồn khác ---
+#
+# generator:
+#   source: local
+#   path: "/path/to/my/local/generator/model" # Đường dẫn tuyệt đối đến model trên máy 
