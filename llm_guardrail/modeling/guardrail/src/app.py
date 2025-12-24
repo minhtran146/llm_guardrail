@@ -127,7 +127,7 @@ async def home():
                         method: 'POST'
                     });
                     const data = await res.json();
-                    resultEl.textContent = JSON.stringify(data, null, 2);
+                    resultEl.textContent = data.gen_content || data.guard_content || JSON.stringify(data, null, 2);
                     statusEl.textContent = res.ok ? "Hoàn tất." : "Có lỗi từ API.";
                 } catch (err) {
                     resultEl.textContent = err?.message || String(err);
