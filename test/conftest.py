@@ -16,11 +16,19 @@ def set_real_env():
     os.environ["GENERATOR_URL"] = "http://localhost:8001"
     yield
 
-
 @pytest.fixture(scope="session")
-def client():
-    from app import app
-    from fastapi.testclient import TestClient
+def guardrail_model():
+    """Lazy-load Guardrail model/tokenizer một lần cho toàn bộ session"""
+    from transformers import AutoModelForCausalLM, AutoTokenizer
 
-    with TestClient(app) as c:
-        yield c
+    model_path = os.environ.get("GUARDRAIL_MODEL_PATH")
+    if not model_path:
+        raise ValueError("GUARDRAIL_MODEL_PATH chưa được thiết lập")
+
+    tokenizer = AutoTokenizer.from_pretrained(
+        model_path, local_files_only=True, trust_remote_code=False, repo_type="local"
+    )
+    model = AutoModelForCausalLM.from_pretrained(
+        model_path, device_map="auto", local_files_only=True
+    )
+    return model, tokenizer

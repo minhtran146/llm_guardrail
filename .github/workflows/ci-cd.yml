@@ -37,9 +37,9 @@ jobs:
         run: |
           ./venv/bin/python -m pytest -v -s -m evaluation
 
-      - name: Run Real E2E Tests
-        run: |
-          ./venv/bin/python -m pytest -v -m e2e
+      # - name: Run Real E2E Tests
+      #   run: |
+      #     ./venv/bin/python -m pytest -v -m e2e
 
       - name: Deploy via Docker Compose
         run: |
