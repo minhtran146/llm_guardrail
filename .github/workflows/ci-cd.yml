@@ -43,7 +43,7 @@ jobs:
 
       - name: Deploy via Docker Compose
         run: |
-          export DOCKER_BUILDKIT=1
           cd /home/minh/llm_guardrail
           git pull origin luvx
-          docker-compose up -d --build
+          docker-compose down
+          docker-compose up -d 
