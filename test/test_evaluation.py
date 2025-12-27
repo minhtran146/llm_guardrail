@@ -12,7 +12,7 @@ def test_guardrail_model_accuracy(guardrail_model):
         match = re.search(r"Safety: (Safe|Unsafe|Controversial)", content)
         return match.group(1) if match else "Unknown"
 
-    ds = load_dataset("Qwen/Qwen3GuardTest", split="test")
+    ds = load_dataset("Qwen/Qwen3GuardTest", split="thinking")
 
     total = 0
     correct = 0
