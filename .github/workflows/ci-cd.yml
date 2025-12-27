@@ -3,7 +3,7 @@ name: Local Guardrail CI
 on:
   push:
     branches:
-      - "main"
+      - "**"
 
 jobs:
   guardrail-ci:
