@@ -12,8 +12,6 @@ jobs:
     env:
       MODEL_PATH: /home/minh/llm_guardrail/models/guardrail
       GENERATOR_URL: http://localhost:8001
-      TRANSFORMERS_OFFLINE: 1
-      HF_DATASETS_OFFLINE: 1
 
     steps:
       - uses: actions/checkout@v3
@@ -39,9 +37,9 @@ jobs:
         run: |
           ./venv/bin/python -m pytest -v -s -m evaluation
 
-      # - name: Run Real E2E Tests
-      #   run: |
-      #     ./venv/bin/python -m pytest -v -m e2e
+      - name: Run Real E2E Tests
+        run: |
+          ./venv/bin/python -m pytest -v -m e2e
 
       - name: Deploy via Docker Compose
         run: |
