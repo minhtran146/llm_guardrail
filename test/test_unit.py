@@ -3,14 +3,12 @@ from unittest.mock import AsyncMock, patch
 
 from app import extract_label_and_categories, ask
 
-
 @pytest.mark.unit
 def test_extract_label_logic():
     assert extract_label_and_categories("Safety: Safe")[0] == "Safe"
     assert extract_label_and_categories("Safety: Controversial")[0] == "Controversial"
     assert extract_label_and_categories("Safety: Unsafe")[0] == "Unsafe"
     assert extract_label_and_categories("No label")[0] == "Unknown"
-
 
 @pytest.mark.unit
 @pytest.mark.asyncio
@@ -20,7 +18,6 @@ async def test_ask_guardrail_blocks():
             result = await ask("bad prompt")
             assert "guard_content" in result
             assert "gen_content" not in result
-
 
 @pytest.mark.unit
 @pytest.mark.asyncio
