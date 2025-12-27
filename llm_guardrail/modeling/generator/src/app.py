@@ -15,7 +15,7 @@ model = AutoModelForCausalLM.from_pretrained(
     device_map="auto",
     local_files_only=True
 )
-tokenizer = AutoTokenizer.from_pretrained(MODEL_PATH, local_files_only=True, trust_remote_code=False)
+tokenizer = AutoTokenizer.from_pretrained(MODEL_PATH, local_files_only=True, trust_remote_code=False, repo_type="local")
 
 app = FastAPI()
 
