@@ -12,45 +12,30 @@ jobs:
     env:
       MODEL_PATH: /home/minh/models/guardrail
       GENERATOR_URL: http://localhost:8001
-      PYTHONPATH: ${{ github.workspace }}
 
     steps:
-      - name: Checkout source
-        uses: actions/checkout@v3
-
-      - name: Show workspace info
-        run: |
-          pwd
-          ls -lah
+      - uses: actions/checkout@v3
 
       - name: Setup Python venv
         run: |
           python3 -m venv venv
-          source venv/bin/activate
-          python --version
-          pip install --upgrade pip
-
-      - name: Install dependencies
-        run: |
-          source venv/bin/activate
-          pip install -r requirements.txt
+          ./venv/bin/python -m pip install --upgrade pip
+          ./venv/bin/python -m pip install -r requirements.txt
 
       - name: Verify Generator is Running
         run: |
-          curl -X POST "http://localhost:8001/ask_gen?prompt=ping" || exit 1
+          curl -X POST "${{ env.GENERATOR_URL }}/ask_gen?prompt=ping" || exit 1
 
       - name: Run Unit Tests
         run: |
-          source venv/bin/activate
-          pytest -v -m unit
+          ./venv/bin/python -m pytest -v -m unit
 
       - name: Run Real Evaluation (Qwen Dataset)
         run: |
-          source venv/bin/activate
-          pytest -v -s -m evaluation
+          ./venv/bin/python -m pytest -v -s -m evaluation
 
       - name: Run Real E2E Tests
         run: |
-          source venv/bin/activate
-          pytest -v -m e2e
+          ./venv/bin/python -m pytest -v -m e2e
+
 
