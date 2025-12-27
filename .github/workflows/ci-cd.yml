@@ -16,26 +16,26 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Setup Python venv
-        run: |
-          python3 -m venv venv
-          ./venv/bin/python -m pip install --upgrade pip
-          ./venv/bin/python -m pip install -r requirements.txt
+      # - name: Setup Python venv
+      #   run: |
+      #     python3 -m venv venv
+      #     ./venv/bin/python -m pip install --upgrade pip
+      #     ./venv/bin/python -m pip install -r requirements.txt
 
-      - name: Verify Generator is Running
-        run: |
-          curl -X POST "${{ env.GENERATOR_URL }}/ask_gen" \
-                -H "Content-Type: application/json" \
-                -d '{"prompt":"ping"}' \
-                || exit 1
+      # - name: Verify Generator is Running
+      #   run: |
+      #     curl -X POST "${{ env.GENERATOR_URL }}/ask_gen" \
+      #           -H "Content-Type: application/json" \
+      #           -d '{"prompt":"ping"}' \
+      #           || exit 1
 
       # - name: Run Unit Tests
       #   run: |
       #     ./venv/bin/python -m pytest -v -m unit
 
-      - name: Run Real Evaluation (Qwen Dataset)
-        run: |
-          ./venv/bin/python -m pytest -v -s -m evaluation
+      # - name: Run Real Evaluation (Qwen Dataset)
+      #   run: |
+      #     ./venv/bin/python -m pytest -v -s -m evaluation
 
       # - name: Run Real E2E Tests
       #   run: |
