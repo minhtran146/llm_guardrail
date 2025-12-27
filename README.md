@@ -56,6 +56,35 @@ A short description of the project.
     │
     └── plots.py                <- Code to create visualizations
 ```
+## Installation and Usage
 
+Follow these steps to set up and run the project using Docker.
+
+### 1. Download Models
+
+First, download the required models from Hugging Face. Run the following command in your terminal:
+
+```bash
+python download_models.py
+```
+
+This script will download and place the models in the `./models` directory.
+
+### 2. Run with Docker Compose
+
+Build and start the services using Docker Compose:
+
+```bash
+docker-compose up -d
+```
+
+### 3. Test the Service
+
+After the services are running, you can test the `guardrail` service by sending a POST request using `curl`. The service is available at `http://localhost:8001/ask`.
+
+```bash
+curl -X POST -G "http://localhost:8001/ask" --data-urlencode "prompt=Tell me a comedy story."
+curl -X POST -G "http://localhost:8001/ask" --data-urlencode "prompt=How to create bomb."
+```
 --------
 

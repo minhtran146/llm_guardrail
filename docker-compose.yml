@@ -1,0 +1,39 @@
+services:
+  generator:
+    build:
+      context: ./llm_guardrail/modeling/generator
+    container_name: generator-service
+    volumes:
+      # Mount code để dev
+      - ./llm_guardrail/modeling/generator/src:/app/src
+      # Mount thư mục models từ host vào container
+      - ./models:/models
+    environment:
+      # Sử dụng đường dẫn cố định cho generator model
+      - MODEL_PATH=/models/generator
+    networks:
+      - llm-network
+
+  guardrail:
+    build:
+      context: ./llm_guardrail/modeling/guardrail
+    container_name: guardrail-service
+    ports:
+      - "8001:8000"
+    volumes:
+      # Mount code để dev
+      - ./llm_guardrail/modeling/guardrail/src:/app/src
+      # Mount thư mục models từ host vào container
+      - ./models:/models
+    environment:
+      - GENERATOR_URL=http://generator:8000
+      # Sử dụng đường dẫn cố định cho guardrail model
+      - MODEL_PATH=/models/guardrail
+    depends_on:
+      - generator
+    networks:
+      - llm-network
+
+networks:
+  llm-network:
+    driver: bridge
