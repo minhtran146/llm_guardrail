@@ -45,4 +45,4 @@ jobs:
         run: |
           cd /home/minh/llm_guardrail
           git pull origin luvx
-          docker compose up -d --build
+          docker-compose up -d --build
