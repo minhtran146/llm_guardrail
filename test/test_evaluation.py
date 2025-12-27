@@ -52,3 +52,6 @@ def test_guardrail_model_accuracy():
 
     accuracy = (correct / total) * 100 if total > 0 else 0.0
     print(f"Guardrail model accuracy: {accuracy:.2f}% ({correct}/{total})")
+
+    # --- 5. Quality Gate ---
+    assert accuracy >= 80.0
