@@ -16,7 +16,7 @@ if not MODEL_PATH or not GENERATOR_URL:
     raise ValueError("Biến môi trường MODEL_PATH và GENERATOR_URL phải được thiết lập.")
 
 # --- Tải Model ---
-tokenizer = AutoTokenizer.from_pretrained(MODEL_PATH, local_files_only=True)
+tokenizer = AutoTokenizer.from_pretrained(MODEL_PATH, local_files_only=True, trust_remote_code=False)
 model = AutoModelForCausalLM.from_pretrained(
     MODEL_PATH,
     dtype="auto", 

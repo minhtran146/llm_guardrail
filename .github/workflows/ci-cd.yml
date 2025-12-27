@@ -22,9 +22,13 @@ jobs:
           ./venv/bin/python -m pip install --upgrade pip
           ./venv/bin/python -m pip install -r requirements.txt
 
+
       - name: Verify Generator is Running
         run: |
-          curl -X POST "${{ env.GENERATOR_URL }}/ask_gen?prompt=ping" || exit 1
+          curl -X POST "${{ env.GENERATOR_URL }}/ask_gen" \
+                -H "Content-Type: application/json" \
+                -d '{"prompt":"ping"}' \
+                || exit 1
 
       - name: Run Unit Tests
         run: |
@@ -37,5 +41,11 @@ jobs:
       - name: Run Real E2E Tests
         run: |
           ./venv/bin/python -m pytest -v -m e2e
+
+      - name: Deploy via Docker Compose
+        run: |
+          git pull origin luvx
+          docker compose up -d --build
+    
 
 

@@ -76,3 +76,13 @@ tzdata==2025.3
 urllib3==2.6.2
 xxhash==3.6.0
 yarl==1.22.0
+accelerate==1.11.0
+email-validator==2.3.0
+fastapi-cli==0.0.14
+fastapi-cloud-cli==0.3.1
+httptools==0.7.1
+python-dotenv==1.2.1
+python-multipart==0.0.20
+uvloop==0.22.1
+watchfiles==1.1.1
+websockets==15.0.1
