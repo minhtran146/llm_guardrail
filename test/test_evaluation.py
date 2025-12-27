@@ -6,7 +6,7 @@ import re
 import os
 
 # --- 1. Load model/tokenizer trực tiếp ---
-MODEL_PATH = os.environ.get("MODEL_PATH")
+MODEL_PATH = os.environ["GUARDRAIL_MODEL_PATH"]
 if not MODEL_PATH:
     raise ValueError("MODEL_PATH chưa được thiết lập")
 

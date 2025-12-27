@@ -9,7 +9,10 @@ sys.path.insert(0, GUARDRAIL_SRC)
 
 @pytest.fixture(scope="session", autouse=True)
 def set_real_env():
-    os.environ["MODEL_PATH"] = "/home/minh/llm_guardrail/models/guardrail"
+    # Guardrail model path
+    os.environ["GUARDRAIL_MODEL_PATH"] = "/home/minh/llm_guardrail/models/guardrail"
+    # Generator model path
+    os.environ["GENERATOR_MODEL_PATH"] = "/home/minh/llm_guardrail/models/generator"
     os.environ["GENERATOR_URL"] = "http://localhost:8001"
     yield
 
