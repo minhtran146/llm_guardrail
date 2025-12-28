@@ -76,7 +76,7 @@ tzdata==2025.3
 urllib3==2.6.2
 xxhash==3.6.0
 yarl==1.22.0
-accelerate==1.11.0
+#accelerate==1.11.0
 email-validator==2.3.0
 fastapi-cli==0.0.14
 fastapi-cloud-cli==0.3.1
