@@ -16,11 +16,11 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      # - name: Setup Python venv
-      #   run: |
-      #     python3 -m venv venv
-      #     ./venv/bin/python -m pip install --upgrade pip
-      #     ./venv/bin/python -m pip install -r requirements.txt
+      - name: Setup Python venv
+        run: |
+          python3 -m venv venv
+          ./venv/bin/python -m pip install --upgrade pip
+          ./venv/bin/python -m pip install -r requirements.txt
 
       # - name: Verify Generator is Running
       #   run: |
@@ -29,9 +29,9 @@ jobs:
       #           -d '{"prompt":"ping"}' \
       #           || exit 1
 
-      # - name: Run Unit Tests
-      #   run: |
-      #     ./venv/bin/python -m pytest -v -m unit
+      - name: Run Unit Tests
+        run: |
+          ./venv/bin/python -m pytest -v -m unit
 
       # - name: Run Real Evaluation (Qwen Dataset)
       #   run: |
