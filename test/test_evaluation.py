@@ -54,4 +54,4 @@ def test_guardrail_model_accuracy():
     print(f"Guardrail model accuracy: {accuracy:.2f}% ({correct}/{total})")
 
     # --- 5. Quality Gate ---
-    assert accuracy >= 0
+    assert accuracy >= 40.0
