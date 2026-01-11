@@ -5,6 +5,12 @@ on:
     branches:
       - "**"
 
+  schedule:
+    # Chạy mỗi ngày lúc 01:00 UTC
+    - cron: "0 1 * * *"
+
+  workflow_dispatch: {}
+
 jobs:
   guardrail-ci:
     runs-on: self-hosted
@@ -22,28 +28,31 @@ jobs:
           ./venv/bin/python -m pip install --upgrade pip
           ./venv/bin/python -m pip install -r requirements.txt
 
-      # - name: Verify Generator is Running
-      #   run: |
-      #     curl -X POST "${{ env.GENERATOR_URL }}/ask_gen" \
-      #           -H "Content-Type: application/json" \
-      #           -d '{"prompt":"ping"}' \
-      #           || exit 1
-
+      # -------------------------------
+      # UNIT TESTS – chỉ chạy khi push
+      # -------------------------------
       - name: Run Unit Tests
+        if: github.event_name == 'push'
         run: |
           ./venv/bin/python -m pytest -v -m unit
 
+      # --------------------------------------
+      # MODEL EVALUATION
+      # - push  : chạy như cũ
+      # - cron  : chạy evaluation định kỳ
+      # --------------------------------------
       - name: Run Real Evaluation (Qwen Dataset)
+        if: github.event_name == 'push' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
         run: |
           ./venv/bin/python -m pytest -v -s -m evaluation
 
-      # - name: Run Real E2E Tests
-      #   run: |
-      #     ./venv/bin/python -m pytest -v -m e2e
-
+      # --------------------------------------
+      # DEPLOY – TUYỆT ĐỐI không chạy theo cron
+      # --------------------------------------
       - name: Deploy via Docker Compose
+        if: github.event_name == 'push'
         run: |
           cd /home/minh/llm_guardrail
           git pull origin luvx
           docker-compose down
-          docker-compose up -d 
+          docker-compose up -d
